@@ -51,7 +51,9 @@
          * @param {choice} number The li zero-based index of the choice picked
          */
         function processQuestion(choice){
+            userQuestion = quiz[currentquestion];
             var choiceString = quiz[currentquestion]['choices'][choice];
+            userChoice = choiceString;
             var correctString = quiz[currentquestion]['correct'];
             if(choiceString == correctString){
                 $('.choice').eq(choice).css({'background-color':'#50D943'});
@@ -203,6 +205,7 @@
         if (i == 16) {
             document.getElementById("myProgress").style.display = "none";
             document.getElementById("newquiz").style.display = "block";
+            document.getElementById("reportMistake").style.display = "block";
             document.getElementById("frame").style.display = "block";
             init();
             return;
@@ -271,9 +274,11 @@
         nextQuestionText = "NEXT QUESTION";
         quiztitle = "Rega Rega Rega";
         correctText = 'Correct';
+        askSupport = 'Please explain the problem';
         $("#fetchingQ").text('Fetching questions from server..');
         document.body.style = englishStyle;
         $("#newquiz").text('Load New Quiz');
+         $("#reportMistake").text('Report Mistake');
         loaderFunction();
    }    
 
@@ -281,6 +286,7 @@
         $("#englishBtn").prop( "disabled", false );
         $("#hebrewBtn").prop( "disabled", true );
         rootRef = fb.database().ref('hebrew');
+        askSupport = 'נא להסביר מה הבעיה';
         questionText = 'שאלה';
         questionTextOf = 'מתוך';
         checkAnswer = 'בדוק תשובה';
@@ -293,6 +299,7 @@
         quiztitle = 'רגע רגע רגע';
         correctText = 'נכון';
         $("#newquiz").text('טען בוחן חדש');
+         $("#reportMistake").text('דווח טעות');
         $("#fetchingQ").text('טוען שאלות מהשרת..');
         document.body.style ="text-align:right;unicode-bidi:bidi-override; direction:rtl;"
         loaderFunction();
@@ -311,6 +318,7 @@
         //progBar.innerHTML = progress.toFixed(2) + "%";
         document.getElementById("myProgress").style.display = "block";
         document.getElementById("newquiz").style.display = "none";
+        document.getElementById("reportMistake").style.display = "none";
         document.getElementById("frame").style.display = "none";
         //makeProgress();
         /// get number of questions
@@ -346,6 +354,32 @@
         englishStyle = document.body.style;
         setEnglish();
     };
+    
+    var userChoice, userQuestion;
+    var askSupport;
+    function reportMistake()
+    {
+        if (userQuestion == undefined)
+        {
+            userQuestion = quiz[currentquestion];
+        }
+        var subject = "Graphica100 - Question Error";
+        var body = "";
+        body += "Question: " + userQuestion.question + "\n\n";
+        body += "Correct Answer: " + userQuestion.correct + "\n\n";
+        body += "Answers:\n";
+        body += "\t"+userQuestion.choices[0]+"\n";
+        body += "\t"+userQuestion.choices[1]+"\n";
+        body += "\t"+userQuestion.choices[2]+"\n";
+        body += "\t"+userQuestion.choices[3]+"\n\n";
+        body += "Explanation: "+userQuestion.explanation + "\n\n";
+        body += "User choice: " + userChoice + "\n\n";
+        body += "Please Fix this please!!!";
+        var mailString = 'mailto:RKCodeSolution@gmail.com?subject='+
+            subject+'&body='+encodeURIComponent(body);
+        alert(askSupport);
+        window.open(mailString);
+    }
     
 
 
