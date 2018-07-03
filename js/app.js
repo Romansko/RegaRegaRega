@@ -18,8 +18,12 @@
         function addChoices(choices){
             if(typeof choices !== "undefined" && $.type(choices) == "array"){
                 $('#choice-block').empty();
+                var j=0;
                 for(var i=0;i<choices.length; i++){
-                    $(document.createElement('li')).addClass('choice choice-box').attr('data-index', i).text(choices[i]).appendTo('#choice-block');                    
+                    if (choices[i] != "$") {
+                    $(document.createElement('li')).addClass('choice choice-box').attr('data-index', j).text(choices[i]).appendTo('#choice-block');  
+                    j++;
+                    }
                 }
             }
         }
@@ -202,7 +206,7 @@
      * 16 questions.
      */
     function populateQuiz(i){
-        if (i == 16) {
+        if (i == Q_IN_QUIZ) {
             document.getElementById("myProgress").style.display = "none";
             document.getElementById("newquiz").style.display = "block";
             document.getElementById("reportMistake").style.display = "block";
@@ -233,8 +237,8 @@
         // All at once
         rootRef.once('value', function(snapshot){
             numberOfQuestions = snapshot.numChildren();
-           
-            for (var i=0; i<16; ++i){
+            $("#qNumText").text(qInDB+numberOfQuestions);
+            for (var i=0; i<Q_IN_QUIZ; ++i){
                 var randQ = getRandomQNum(numberOfQuestions);
                 //console.log("rand = " + randQ);
                 var data = (snapshot.val())[""+randQ];
@@ -252,7 +256,7 @@
                 firstProgramLoad = false;
             }
             
-            populateQuiz(16);
+            populateQuiz(Q_IN_QUIZ);
         });
     }
 
@@ -275,6 +279,7 @@
         quiztitle = "Rega Rega Rega";
         correctText = 'Correct';
         askSupport = 'Please explain the problem';
+        qInDB = 'Total number of questions in DB: ';
         $("#fetchingQ").text('Fetching questions from server..');
         document.body.style = englishStyle;
         $("#newquiz").text('Load New Quiz');
@@ -298,6 +303,7 @@
         nextQuestionText = "השאלה הבאה";
         quiztitle = 'רגע רגע רגע';
         correctText = 'נכון';
+        qInDB = 'מספר שאלות במאגר: ';
         $("#newquiz").text('טען בוחן חדש');
          $("#reportMistake").text('דווח טעות');
         $("#fetchingQ").text('טוען שאלות מהשרת..');
@@ -328,7 +334,7 @@
 /************************************* MAIN **********************************************************/
     const Q_IN_QUIZ = 16;
     var numberOfQuestions;
-    var nextQuestionText, regaRegaRega, quiztitle, correctText;
+    var nextQuestionText, regaRegaRega, quiztitle, correctText, qInDB;
     var checkAnswer, questionText, questionTextOf, doneQuizText1, doneQuizText2, doneQuizText3, doneQuizText4;
     var currentquestion = 0, score = 0, submt = true, picked, flag = true;
     var quiz = [], qSet = [];
