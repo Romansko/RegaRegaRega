@@ -1,5 +1,4 @@
 ## RegaRegaRega
 
-
-[>>>>>>>>>>>>>>>> click here to start <<<<<<<<<<<<<<<<](
-https://cdn.rawgit.com/Romansko/RegaRegaRega/312e67d9/index.html)
+Click to start:
+[https://romansko.github.io/RegaRegaRega](https://romansko.github.io/RegaRegaRega)
