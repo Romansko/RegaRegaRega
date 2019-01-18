@@ -210,6 +210,7 @@
             document.getElementById("newquiz").style.display = "block";
             document.getElementById("reportMistake").style.display = "block";
             document.getElementById("frame").style.display = "block";
+			//document.getElementById("genBulk").style.display = "block";
             init();
             return;
         }
@@ -282,7 +283,8 @@
         $("#fetchingQ").text('Fetching questions from server..');
         document.body.style = englishStyle;
         $("#newquiz").text('Load New Quiz');
-         $("#reportMistake").text('Report Mistake');
+		$("#genBulk").text('Show all questions');
+        $("#reportMistake").text('Report Mistake');
         loaderFunction();
    }    
 
@@ -304,7 +306,8 @@
         correctText = 'נכון';
         qInDB = 'מספר שאלות במאגר: ';
         $("#newquiz").text('טען בוחן חדש');
-         $("#reportMistake").text('דווח טעות');
+        $("#reportMistake").text('דווח טעות');
+		$("#genBulk").text('תצוגת כל השאלות');
         $("#fetchingQ").text('טוען שאלות מהשרת..');
         document.body.style ="text-align:right;unicode-bidi:bidi-override; direction:rtl;"
         loaderFunction();
@@ -325,6 +328,7 @@
         document.getElementById("newquiz").style.display = "none";
         document.getElementById("reportMistake").style.display = "none";
         document.getElementById("frame").style.display = "none";
+		document.getElementById("genBulk").style.display = "none";
         //makeProgress();
         /// get number of questions
         populateQuiz(0);      
@@ -389,6 +393,38 @@
 
 
    
+function generateBulk() {
+    if (allQuestionsSave == undefined || allQuestionsSave.length == 0) {
+        alert(notEnoughQuestionMessage);
+        return;
+    }
+    var bulkQuestionsString = "";
+    bulkQuestionsString += "<center><H1>Graphica 100</H1><br/>";
+    bulkQuestionsString += "<br/>תשובה נכונה מסומנת באדום.";
+    bulkQuestionsString += "<br/>הסבר נוסף מסומן בירוק.";
+    bulkQuestionsString += "<br/>סך שאלות:" + allQuestionsSave.length;
+    bulkQuestionsString += "<br/><br><button onClick=\"window.print();return false;\">הדפסה</button>"
+    bulkQuestionsString += "</center><br/><hr/>";
+    allQuestionsSave.forEach(function (q) {
+        console.log(q);
+        bulkQuestionsString += "<br/><b>" + q.question + "</b><br>";
+        if (q.Image != undefined && q.Image != "") {
+            bulkQuestionsString += "<br/><img src=\"" + q.Image + "\" " + "style=\"width:300px;height:150px;\" /><br/>";
+        }
+        q.choices.forEach(function (c) {
+            if (c == q.correct) {
+                bulkQuestionsString += "<br/><font color = \"red\">" + c + "</font><br/>";
+            }
+            else bulkQuestionsString += "<br/>" + c + "</br>";
+        });
+        bulkQuestionsString += "<br/><i><font color=\"green\">" + q.explanation + "</font></i>";
+        bulkQuestionsString += "<hr/>";
+    });
+    bulkQuestionsString += "<hr/><center>RK Code Solution © 2018</center>";
+    localStorage.setItem("bulkString", bulkQuestionsString);
+    var win = window.open("bulk.html");
+    win.focus();
+}
 
      
    

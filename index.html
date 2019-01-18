@@ -35,34 +35,36 @@
             </div>
         </div>
         <hr/>
-        <div class="bgbg" >
-            <div id="frame" role="content"></div>
-            <hr/>
-            <div id="myProgress">
-                <div id="loader"></div>
-                <div align="center" id="fetchingQ">Fetching questions from server..</div>
-                <!-- <div id="myBar">0%</div> -->
-            </div>
+    <div class="bgbg">
+        <div id="frame" role="content"></div>
+        <hr/>
+        <div id="myProgress">
+            <div id="loader"></div>
+            <div align="center" id="fetchingQ"></div>
         </div>
-        <br/>
-        
-        <div align="center">
-            <hr/>
-            <table style="border-spacing: 30px;display:inline-block;">
-                <tr>
-                    <td>
-                        <button  class="simpleBtn" id="newquiz" onClick="loaderFunction()">Load New Quiz</button>
-                    </td>
-                    <td>
-                        <button  class="simpleBtn" id="reportMistake" onClick="reportMistake()">Report Mistake</button>
-                    </td>
-                </tr>
-            </table>
+    </div>
+    <br/>
+
+    <center>
+		<div id="qNumText"></div>
+		<hr/>
+        <br />RK Code Solution © 2019
+    </center>
+	<br/><br/><br/><br/>
+	 <div class="menu" align="center">
+        <table  align="center">
             <tr>
-            <div id="qNumText"></div>
+                <td>
+                    <button class="simpleBtn" id="newquiz" onClick="populateQuiz()"></button>
+                </td>
+                <td>
+                    <button class="simpleBtn" id="reportMistake" onClick="reportMistake()"></button>
+                </td>
+                <td>
+                    <button class="simpleBtn" id="genBulk" onClick="generateBulk()"></button>
+                </td>
             </tr>
-            <hr/><br />RK Code Solution © 2018
-        </div>
-        
-    </body>
+        </table>
+	</div>
+</body>
 </html>
